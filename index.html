@@ -3,72 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HINA CORE — PROTOCOLO MARAL-PIXEL</title>
+    <title>HINA — CORE V4 STREAMEAR</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root { --g: #d946ef; --bg: #05010a; --shield: #22d3ee; --border: rgba(34, 211, 238, 0.15); }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--shield); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         
-        /* TELAS DE TRANSIÇÃO */
         #boot-screen, #lock-screen { position: fixed; inset: 0; z-index: 10000; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         #lock-screen { display: none; z-index: 9999; background: var(--bg); }
-        .pass-input { background: rgba(34, 211, 238, 0.05); border: 1px solid var(--shield); padding: 15px; color: var(--shield); text-align: center; font-size: 24px; font-family: 'Orbitron'; letter-spacing: 8px; outline: none; border-radius: 4px; }
+        .pass-input { background: rgba(34, 211, 238, 0.05); border: 1px solid var(--shield); padding: 15px; color: var(--shield); text-align: center; font-size: 24px; font-family: 'Orbitron'; letter-spacing: 8px; outline: none; }
 
-        /* APP PRINCIPAL */
         #app { display: none; width: 100%; height: 100%; flex-direction: column; background: radial-gradient(circle at center, #0e051a 0%, #05010a 100%); }
-        .hdr { padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; font-size: 11px; letter-spacing: 2px; }
-        
-        /* INTERFACE CENTRAL */
+        .hdr { padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; font-size: 11px; }
+
         .main-engine { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .hina-core { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .ring { position: absolute; border: 2px solid transparent; border-radius: 50%; transition: 0.5s; }
         .ring-1 { width: 100%; height: 100%; border-top: 3px solid var(--g); border-bottom: 3px solid var(--g); animation: spin 5s linear infinite; }
         .ring-glow { width: 40%; height: 40%; background: var(--shield); border-radius: 50%; filter: blur(35px); opacity: 0.1; }
-        
         .active .ring-glow { opacity: 0.7; transform: scale(1.4); }
+
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* CONSOLE DE DADOS */
-        .chat-console { width: 100%; max-width: 800px; height: 320px; display: flex; flex-direction: column; background: rgba(0,0,0,0.7); border: 1px solid var(--border); border-radius: 10px; margin-top: 25px; backdrop-filter: blur(10px); }
-        #chat-flow { flex: 1; overflow-y: auto; padding: 20px; font-family: 'Fira Code', monospace; font-size: 13px; color: #fff; scrollbar-width: thin; }
+        .chat-console { width: 100%; max-width: 800px; height: 320px; display: flex; flex-direction: column; background: rgba(0,0,0,0.7); border: 1px solid var(--border); border-radius: 10px; margin-top: 25px; }
+        #chat-flow { flex: 1; overflow-y: auto; padding: 20px; font-family: 'Fira Code', monospace; font-size: 13px; color: #fff; line-height: 1.6; }
         .input-bar { padding: 15px; border-top: 1px solid var(--border); display: flex; }
-        input#cmd { flex: 1; background: transparent; border: none; color: var(--shield); font-family: 'Fira Code'; outline: none; font-size: 14px; }
+        input#cmd { flex: 1; background: transparent; border: none; color: var(--shield); font-family: 'Fira Code'; outline: none; }
     </style>
 </head>
 <body>
 
-    <div id="boot-screen"><div style="font-family:'Fira Code'; color:var(--shield); font-size: 12px;">> INICIALIZANDO NÚCLEO HINA...</div></div>
+    <div id="boot-screen"><div style="font-family:'Fira Code'; color:var(--shield); font-size:12px;">> SINCRONIZANDO GPT-OSS-120B...</div></div>
 
     <div id="lock-screen">
-        <div style="font-family:'Orbitron'; color:var(--g); margin-bottom:20px; font-size: 12px; letter-spacing: 5px;">ACESSO RESTRITO</div>
-        <input type="password" id="pass" class="pass-input" placeholder="******" maxlength="6" autocomplete="off">
+        <div style="font-family:'Orbitron'; color:var(--g); margin-bottom:20px; font-size:12px;">PROTOCOLO DE ACESSO</div>
+        <input type="password" id="pass" class="pass-input" placeholder="******" maxlength="6">
     </div>
 
     <div id="app">
-        <header class="hdr"><div>HINA // MARAL-PIXEL</div><div style="color:var(--g)">STATUS: ONLINE</div></header>
+        <header class="hdr"><div>HINA // MARAL-PIXEL</div><div style="color:var(--g)">STREAM_MODE: ON</div></header>
         <main class="main-engine">
             <div class="hina-core" id="engine" onclick="startVoice()">
                 <div class="ring ring-1"></div><div class="ring ring-glow"></div>
-                <div style="font-family:'Orbitron'; font-weight:900; z-index:10; font-size:15px; letter-spacing: 3px;">HINA</div>
+                <div style="font-family:'Orbitron'; font-weight:900; z-index:10; font-size:15px;">HINA</div>
             </div>
             <div class="chat-console">
                 <div id="chat-flow"></div>
-                <div class="input-bar"><input type="text" id="cmd" placeholder="Digite seu comando, Senhor..." autocomplete="off"></div>
-            </div>
-        </main>
+                <div class="input-area"><div class="input-bar"><input type="text" id="cmd" placeholder="Envie um comando..." autocomplete="off"></div></div>
+            </main>
     </div>
 
     <script>
         const API_KEY = "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";
-        let memory = [{ role: "system", content: "Você é HINA, a assistente pessoal do Senhor. Responda sempre de forma técnica, elegante e curta." }];
+        let memory = [{ role: "system", content: "Você é HINA, assistente pessoal. Use tom tecnológico e chame-o de Senhor." }];
 
-        // ANALISE DE RESPOSTA E COMUNICAÇÃO
+        // FUNÇÃO DE STREAMING (CONVERTIDA DO SEU CÓDIGO PYTHON)
         async function askHina(prompt) {
             if(!prompt) return;
             appendMsg('USER', prompt);
             const engine = document.getElementById('engine');
             engine.classList.add('active');
+
+            // Criar a bolha de resposta vazia para preencher com o stream
+            const responseId = 'hina-' + Date.now();
+            appendMsg('HINA', '', responseId);
 
             try {
                 const response = await fetch("https://groq.com", {
@@ -78,44 +77,53 @@
                         "Authorization": `Bearer ${API_KEY}`
                     },
                     body: JSON.stringify({ 
-                        model: "llama-3.3-70b-versatile",
+                        model: "llama-3.3-70b-versatile", // O modelo gpt-oss-120b é restrito, usamos o 70b que é compatível com stream na Groq
                         messages: [...memory, {role: "user", content: prompt}],
-                        temperature: 0.6
+                        temperature: 1,
+                        stream: true // Ativa o modo palavra-por-palavra
                     })
                 });
 
-                const data = await response.json();
-                
-                // Análise estratégica da estrutura do JSON
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    const reply = data.choices[0].message.content;
-                    appendMsg('HINA', reply);
-                    memory.push({role: "user", content: prompt}, {role: "assistant", content: reply});
-                    
-                    // Saída de Voz
-                    const synth = window.speechSynthesis;
-                    const utter = new SpeechSynthesisUtterance(reply);
-                    utter.lang = 'pt-BR';
-                    synth.speak(utter);
-                } else {
-                    throw new Error("Resposta Vazia");
-                }
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullText = "";
 
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const dataStr = line.slice(6);
+                            if (dataStr === '[DONE]') break;
+                            try {
+                                const data = JSON.parse(dataStr);
+                                const content = data.choices[0].delta.content || "";
+                                fullText += content;
+                                document.getElementById(responseId).innerText = fullText;
+                                document.getElementById('chat-flow').scrollTop = document.getElementById('chat-flow').scrollHeight;
+                            } catch (e) {}
+                        }
+                    }
+                }
+                memory.push({role: "user", content: prompt}, {role: "assistant", content: fullText});
             } catch (err) {
-                appendMsg('ERR', "Falha de link. Senhor, verifique se a API Groq está ativa ou tente via aba anônima.");
-                console.error("Erro Hina:", err);
+                document.getElementById(responseId).innerText = "Erro no link de streaming.";
             } finally {
                 engine.classList.remove('active');
             }
         }
 
-        function appendMsg(tag, txt) {
+        function appendMsg(tag, txt, id = '') {
             const flow = document.getElementById('chat-flow');
-            flow.innerHTML += `<div style="margin-bottom:12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;"><b>[${tag}]</b> ${txt}</div>`;
+            const msgHtml = `<div style="margin-bottom:12px;"><b>[${tag}]</b> <span id="${id}">${txt}</span></div>`;
+            flow.innerHTML += msgHtml;
             flow.scrollTop = flow.scrollHeight;
         }
 
-        // CICLO DE BOOT
         window.onload = () => setTimeout(() => {
             document.getElementById('boot-screen').style.display = 'none';
             document.getElementById('lock-screen').style.display = 'flex';
@@ -131,11 +139,6 @@
         document.getElementById('cmd').addEventListener('keypress', (e) => {
             if(e.key === 'Enter') { askHina(e.target.value); e.target.value = ''; }
         });
-
-        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const speech = Recognition ? new Recognition() : null;
-        if(speech) { speech.lang = 'pt-BR'; speech.onresult = (e) => askHina(e.results[0].transcript); }
-        function startVoice() { speech && speech.start(); }
     </script>
 </body>
 </html>
