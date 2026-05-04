@@ -3,103 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HINA — CORE V4</title>
+    <title>HINA CORE — PROTOCOLO MARAL-PIXEL</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
             --g: #d946ef; --bg: #05010a; --shield: #22d3ee; --border: rgba(34, 211, 238, 0.15);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--shield); 
-            height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;
-        }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--shield); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        /* ════════════ BOOT SEQUENCE (HINA AWAKENING) ════════════ */
-        #boot-screen {
-            position: fixed; inset: 0; z-index: 10000; background: #000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .boot-wrap { text-align: center; width: 80%; max-width: 500px; z-index: 10; }
-        .hina-id { font-family: 'Orbitron'; font-size: 45px; font-weight: 900; color: var(--g); letter-spacing: 20px; margin-bottom: 20px; text-shadow: 0 0 30px var(--g); opacity: 0; animation: reveal 2s forwards; }
-        
+        /* ABERTURA CINEMÁTICA */
+        #boot-screen { position: fixed; inset: 0; z-index: 10000; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .boot-wrap { text-align: center; width: 80%; max-width: 500px; }
+        .hina-id { font-family: 'Orbitron'; font-size: 45px; font-weight: 900; color: var(--g); letter-spacing: 20px; margin-bottom: 20px; text-shadow: 0 0 30px var(--g); }
         .loader-track { width: 100%; height: 1px; background: rgba(255,255,255,0.1); position: relative; margin: 30px 0; }
-        .loader-bar { position: absolute; height: 100%; background: var(--shield); width: 0%; box-shadow: 0 0 20px var(--shield); transition: width 0.3s; }
-        
-        .log-stream { font-family: 'Fira Code'; font-size: 11px; height: 20px; color: var(--shield); opacity: 0.8; letter-spacing: 1px; }
+        .loader-bar { position: absolute; height: 100%; background: var(--shield); width: 0%; transition: width 0.3s; }
 
-        @keyframes reveal { 0% { opacity: 0; letter-spacing: 40px; filter: blur(10px); } 100% { opacity: 1; letter-spacing: 20px; filter: blur(0); } }
-
-        /* ════════════ LOGIN ════════════ */
+        /* LOGIN */
         #lock-screen { display: none; position: fixed; inset: 0; z-index: 9999; background: var(--bg); flex-direction: column; align-items: center; justify-content: center; }
-        .pass-input { background: rgba(34, 211, 238, 0.05); border: 1px solid var(--shield); padding: 15px; color: var(--shield); text-align: center; font-size: 24px; font-family: 'Orbitron'; letter-spacing: 8px; outline: none; border-radius: 4px; }
+        .pass-input { background: rgba(34, 211, 238, 0.05); border: 1px solid var(--shield); padding: 15px; color: var(--shield); text-align: center; font-size: 24px; font-family: 'Orbitron'; letter-spacing: 8px; outline: none; }
 
-        /* ════════════ MAIN APP ════════════ */
+        /* APP */
         #app { display: none; width: 100%; height: 100%; flex-direction: column; background: radial-gradient(circle at center, #0e051a 0%, #05010a 100%); }
-        .hdr { padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; font-size: 11px; letter-spacing: 3px; background: rgba(0,0,0,0.3); }
+        .hdr { padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; font-size: 11px; letter-spacing: 3px; }
 
         .main-engine { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-
-        /* NÚCLEO CENTRAL HINA */
-        .hina-core { position: relative; width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .hina-core { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .ring { position: absolute; border: 2px solid transparent; border-radius: 50%; }
         .ring-1 { width: 100%; height: 100%; border-top: 3px solid var(--g); border-bottom: 3px solid var(--g); animation: spin 6s linear infinite; }
-        .ring-2 { width: 82%; height: 82%; border-left: 2px solid var(--shield); border-right: 2px solid var(--shield); animation: spin 4s linear reverse infinite; opacity: 0.5; }
-        .ring-glow { width: 40%; height: 40%; background: var(--shield); border-radius: 50%; filter: blur(40px); opacity: 0.1; transition: 0.5s; }
-
+        .ring-glow { width: 40%; height: 40%; background: var(--shield); border-radius: 50%; filter: blur(40px); opacity: 0.1; }
         .active .ring-glow { opacity: 0.6; transform: scale(1.5); }
-        .active .ring-1 { border-color: var(--shield); filter: drop-shadow(0 0 20px var(--shield)); }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* PAINEL DE COMANDO */
-        .chat-console { width: 100%; max-width: 900px; height: 350px; display: flex; flex-direction: column; background: rgba(0,0,0,0.7); border: 1px solid var(--border); border-radius: 10px; margin-top: 30px; backdrop-filter: blur(15px); }
-        #chat-flow { flex: 1; overflow-y: auto; padding: 25px; font-family: 'Fira Code', monospace; font-size: 13px; color: #fff; scrollbar-width: thin; }
-        .input-bar { padding: 15px; border-top: 1px solid var(--border); display: flex; background: rgba(0,0,0,0.5); }
-        input#cmd { flex: 1; background: transparent; border: none; color: var(--shield); font-family: 'Fira Code'; font-size: 14px; outline: none; padding: 5px 15px; }
-
-        .status-txt { font-family: 'Orbitron'; font-size: 10px; color: var(--g); margin-top: 15px; letter-spacing: 4px; }
+        .chat-console { width: 100%; max-width: 800px; height: 350px; display: flex; flex-direction: column; background: rgba(0,0,0,0.7); border: 1px solid var(--border); border-radius: 10px; margin-top: 30px; }
+        #chat-flow { flex: 1; overflow-y: auto; padding: 20px; font-family: 'Fira Code', monospace; font-size: 13px; color: #fff; }
+        .input-bar { padding: 15px; border-top: 1px solid var(--border); display: flex; }
+        input#cmd { flex: 1; background: transparent; border: none; color: var(--shield); font-family: 'Fira Code'; outline: none; }
     </style>
 </head>
 <body>
 
-    <!-- ABERTURA: DESPERTAR DA HINA -->
     <div id="boot-screen">
         <div class="boot-wrap">
             <div class="hina-id">HINA</div>
             <div class="loader-track"><div class="loader-bar" id="bar"></div></div>
-            <div class="log-stream" id="log-text">INICIALIZANDO SISTEMA...</div>
+            <div style="font-family:'Fira Code'; font-size:10px;" id="log-text">INICIALIZANDO...</div>
         </div>
     </div>
 
-    <!-- TELA DE ACESSO -->
     <div id="lock-screen">
-        <div style="font-family:'Orbitron'; color:var(--g); margin-bottom:20px; font-size:12px; letter-spacing:5px;">SISTEMA RESTRITO: SENHOR</div>
-        <input type="password" id="pass" class="pass-input" placeholder="SENHA" maxlength="6" autocomplete="off">
+        <div style="font-family:'Orbitron'; color:var(--g); margin-bottom:20px; font-size:12px;">SENHA REQUERIDA</div>
+        <input type="password" id="pass" class="pass-input" placeholder="******" maxlength="6">
     </div>
 
-    <!-- NÚCLEO HINA OPERACIONAL -->
     <div id="app">
         <header class="hdr">
             <div>HINA // MARAL-PIXEL</div>
-            <div id="sys-status" style="color:var(--g)">CONEXÃO: ESTÁVEL</div>
+            <div style="color:var(--g)">STATUS: ONLINE</div>
         </header>
-
         <main class="main-engine">
             <div class="hina-core" id="engine" onclick="startVoice()">
                 <div class="ring ring-1"></div>
-                <div class="ring ring-2"></div>
                 <div class="ring ring-glow"></div>
-                <div style="font-family:'Orbitron'; font-weight:900; z-index:10; font-size:15px; letter-spacing:5px; color:var(--txt);">HINA</div>
+                <div style="font-family:'Orbitron'; font-weight:900; z-index:10; font-size:15px; letter-spacing:5px;">HINA</div>
             </div>
-            
-            <div class="status-txt" id="status">AGUARDANDO COMANDO VOCAL</div>
-
+            <div style="font-family:'Orbitron'; font-size:10px; color:var(--g); margin-top:15px;" id="status">CLIQUE NO NÚCLEO</div>
             <div class="chat-console">
                 <div id="chat-flow"></div>
                 <div class="input-bar">
-                    <span style="color:var(--g); margin-right:10px;">></span>
-                    <input type="text" id="cmd" placeholder="Diga algo ao sistema, Senhor..." autocomplete="off">
+                    <input type="text" id="cmd" placeholder="Comando para o sistema..." autocomplete="off">
                 </div>
             </div>
         </main>
@@ -107,81 +80,59 @@
 
     <script>
         const API_KEY = "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";
-        const API_URL = "https://groq.com";
-        let memory = [{ role: "system", content: "Você é HINA, uma IA avançada. Chame o usuário de Senhor. Seja tecnológica e use termos de sistema." }];
+        let memory = [{ role: "system", content: "Você é HINA, assistente pessoal do Senhor. Responda de forma curta e tecnológica." }];
 
-        // ════════════ LÓGICA DE INICIALIZAÇÃO ════════════
         async function awakening() {
             const bar = document.getElementById('bar');
-            const log = document.getElementById('log-text');
-            const steps = [
-                {p: 20, t: "> CARREGANDO SINAPSES DIGITAIS..."},
-                {p: 45, t: "> SINCRONIZANDO COM GROQ CLOUD..."},
-                {p: 70, t: "> MAPEANDO PROTOCOLO MARAL-PIXEL..."},
-                {p: 100, t: "> HINA ESTÁ ACORDADA."}
-            ];
-
-            for (let step of steps) {
-                bar.style.width = step.p + "%";
-                log.innerText = step.t;
-                await new Promise(r => setTimeout(r, 1000));
+            const steps = [20, 50, 80, 100];
+            for (let p of steps) {
+                bar.style.width = p + "%";
+                await new Promise(r => setTimeout(r, 600));
             }
-
-            setTimeout(() => {
-                document.getElementById('boot-screen').style.display = 'none';
-                document.getElementById('lock-screen').style.display = 'flex';
-                document.getElementById('pass').focus();
-            }, 800);
+            document.getElementById('boot-screen').style.display = 'none';
+            document.getElementById('lock-screen').style.display = 'flex';
         }
 
         window.onload = awakening;
 
-        // ════════════ LÓGICA CORE ════════════
-        const engine = document.getElementById('engine');
-        const statusText = document.getElementById('status');
-        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const speech = Recognition ? new Recognition() : null;
-
-        if(speech) {
-            speech.lang = 'pt-BR';
-            speech.onstart = () => { engine.classList.add('active'); statusText.innerText = "HINA ESTÁ OUVINDO..."; };
-            speech.onresult = (e) => askHina(e.results.transcript);
-            speech.onend = () => { engine.classList.remove('active'); statusText.innerText = "AGUARDANDO COMANDO VOCAL"; };
-        }
-
-        function startVoice() { speech ? speech.start() : appendMsg('ERR', 'Sensor vocal não detectado.'); }
-
-        function hinaSpeak(text) {
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'pt-BR';
-            utter.rate = 1.1;
-            utter.onstart = () => engine.classList.add('active');
-            utter.onend = () => engine.classList.remove('active');
-            window.speechSynthesis.speak(utter);
-        }
-
         async function askHina(prompt) {
-            appendMsg('SENHOR', prompt);
-            memory.push({ role: "user", content: prompt });
+            if(!prompt) return;
+            appendMsg('USER', prompt);
+            const engine = document.getElementById('engine');
+            engine.classList.add('active');
+
             try {
-                const res = await fetch(API_URL, {
+                const res = await fetch("https://groq.com", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${API_KEY}` },
-                    body: JSON.stringify({ model: "llama3-8b-8192", messages: memory })
+                    headers: { 
+                        "Content-Type": "application/json", 
+                        "Authorization": `Bearer ${API_KEY}` 
+                    },
+                    body: JSON.stringify({ 
+                        model: "llama-3.1-8b-instant", 
+                        messages: [...memory, {role: "user", content: prompt}] 
+                    })
                 });
+
                 const data = await res.json();
-                const reply = data.choices.message.content;
+                const reply = data.choices[0].message.content;
                 appendMsg('HINA', reply);
-                hinaSpeak(reply);
-                memory.push({ role: "assistant", content: reply });
+                memory.push({role: "user", content: prompt}, {role: "assistant", content: reply});
+                
+                const utter = new SpeechSynthesisUtterance(reply);
+                utter.lang = 'pt-BR';
+                window.speechSynthesis.speak(utter);
+
             } catch (e) {
-                appendMsg('ERR', "ERRO DE SINCRONIZAÇÃO COM O NÚCLEO.");
+                appendMsg('ERR', "Erro de conexão. Verifique se a chave API ainda é válida.");
+            } finally {
+                engine.classList.remove('active');
             }
         }
 
         function appendMsg(tag, txt) {
             const flow = document.getElementById('chat-flow');
-            flow.innerHTML += `<div style="margin-bottom:12px; border-bottom:1px solid rgba(34,211,238,0.05); padding-bottom:8px;"><b style="color:var(--g)">[${tag}]</b> ${txt}</div>`;
+            flow.innerHTML += `<div style="margin-bottom:10px;"><b>[${tag}]</b> ${txt}</div>`;
             flow.scrollTop = flow.scrollHeight;
         }
 
@@ -189,13 +140,23 @@
             if(e.target.value === "707070") {
                 document.getElementById('lock-screen').style.display = 'none';
                 document.getElementById('app').style.display = 'flex';
-                hinaSpeak("Consciência restaurada. Sistema HINA ativo e pronto para o Senhor.");
             }
         });
 
         document.getElementById('cmd').addEventListener('keypress', (e) => {
-            if(e.key === 'Enter' && e.target.value) { askHina(e.target.value); e.target.value = ''; }
+            if(e.key === 'Enter') {
+                askHina(e.target.value);
+                e.target.value = '';
+            }
         });
+
+        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const speech = Recognition ? new Recognition() : null;
+        if(speech) {
+            speech.lang = 'pt-BR';
+            speech.onresult = (e) => askHina(e.results[0][0].transcript);
+        }
+        function startVoice() { speech && speech.start(); }
     </script>
 </body>
 </html>
